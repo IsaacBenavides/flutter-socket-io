@@ -15,12 +15,13 @@ class UserDataProvider extends ChangeNotifier {
   }
 
   void emitSocketData(Map data) {
-    _socketConnection.emitInformation("user_connected", data);
+    _socketConnection.socket!.emit("user_connected", data);
   }
 
   void getSocketData() {
-    _socketConnection.emitInformation("get_users_data", "");
-    _socketConnection.on("users_connected");
-    socketData = _socketConnection.socketData;
+    _socketConnection.socket!.emit("get_users_data", "");
+    _socketConnection.socket!.on("users_connected", (data) {
+      socketData = data;
+    });
   }
 }
